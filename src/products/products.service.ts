@@ -133,6 +133,19 @@ export class ProductsService {
     return 'Product deleted';
   }
 
+  async deleteAllProducts() {
+    const query = this.productsRepository.createQueryBuilder('product');
+
+    try {
+      return await query
+        .delete()
+        .where({})
+        .execute();
+    } catch (error) {
+      this.handleExecptions(error);
+    }
+  }
+
   private handleExecptions(error: any) {
     if (error.code === '23505') {
       throw new BadRequestException(
