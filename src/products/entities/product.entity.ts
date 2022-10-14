@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Product {
@@ -9,7 +9,7 @@ export class Product {
     @Column({ type: 'text', unique: true,})
     title: string;
 
-    @Column({ type: 'numeric', default: 0 })
+    @Column({ type: 'float', default: 0 })
     price: number;
 
     @Column({ type: 'text', nullable: true })
@@ -26,4 +26,23 @@ export class Product {
 
     @Column({ type: 'text' })
     gender: string;
+
+    @CreateDateColumn({ type: 'timestamp without time zone', default: 'NOW()' })
+    createdAt: Date
+
+    @UpdateDateColumn({ type: 'timestamp without time zone', onUpdate: 'NOW()', nullable: true })
+    updatedAt: Date
+
+
+    @BeforeInsert()
+    checkSlugInsert() {
+        if(!this.slug) {
+            this.slug = this.title
+        }
+        this.slug = this.slug.toLowerCase()
+            .replaceAll(' ', '_')
+            .replaceAll("'", '');
+    }
+
+    // @BeforeUpdate()
 }
