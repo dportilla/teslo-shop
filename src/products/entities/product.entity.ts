@@ -27,6 +27,9 @@ export class Product {
     @Column({ type: 'text' })
     gender: string;
 
+    @Column({ type: 'text', array: true, default: [] })
+    tags: string[];
+
     @CreateDateColumn({ type: 'timestamp without time zone', default: 'NOW()' })
     createdAt: Date
 
