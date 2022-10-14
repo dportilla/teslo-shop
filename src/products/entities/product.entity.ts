@@ -36,7 +36,7 @@ export class Product {
         (productImage) => productImage.product, 
         { cascade: true}
     )
-    images?: ProductImage;
+    images?: ProductImage[];
 
     @CreateDateColumn({ type: 'timestamp without time zone', default: 'NOW()' })
     createdAt: Date
