@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { ProductImage } from './';
 
 @Entity()
 export class Product {
@@ -29,6 +30,13 @@ export class Product {
 
     @Column({ type: 'text', array: true, default: [] })
     tags: string[];
+
+    @OneToMany(
+        () => ProductImage, 
+        (productImage) => productImage.product, 
+        { cascade: true}
+    )
+    images?: ProductImage;
 
     @CreateDateColumn({ type: 'timestamp without time zone', default: 'NOW()' })
     createdAt: Date
